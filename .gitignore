@@ -1,0 +1,28 @@
+# Bash #
+########
+*.*~
+
+# IDEs #
+########
+.classpath
+.metadata/
+.project
+.settings
+.checkstyle
+
+
+# IntelliJ #
+############
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Compiled sources #
+####################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
