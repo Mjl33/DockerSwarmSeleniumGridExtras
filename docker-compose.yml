@@ -1,0 +1,19 @@
+version: '2'
+services:
+  grid-hub:
+   image: mjlee1/hub:1.0.1
+   ports:
+    - "3000:3000"
+    - "4444:4444"
+   environment:
+    no_proxy: "172.18.0.0,172.18.0.1,172.18.0.2,172.18.0.3,172.18.0.4,172.18.0.5,172.18.0.6,172.18.0.7"
+  grid-node:
+   image: mjlee1/node:1.0.0
+   links:
+    - grid-hub:hub
+   volumes:
+    - /dev/shm:/dev/shm
+   ports:
+    - "3000"
+   environment:
+    no_proxy: "192.168.99.1,172.18.0.0,172.18.0.1,172.18.0.2"
