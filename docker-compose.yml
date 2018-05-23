@@ -1,19 +1,80 @@
-version: '2'
+version: '3'
 services:
+
   grid-hub:
-   image: mjlee1/hub:1.0.1
-   ports:
-    - "3000:3000"
-    - "4444:4444"
-   environment:
-    no_proxy: "172.18.0.0,172.18.0.1,172.18.0.2,172.18.0.3,172.18.0.4,172.18.0.5,172.18.0.6,172.18.0.7"
-  grid-node:
-   image: mjlee1/node:1.0.0
-   links:
-    - grid-hub:hub
-   volumes:
-    - /dev/shm:/dev/shm
-   ports:
-    - "3000"
-   environment:
-    no_proxy: "192.168.99.1,172.18.0.0,172.18.0.1,172.18.0.2"
+    labels:
+      name: selenium.hub
+    image: mjlee1/hub:1.0.0
+    ports:
+      - "3000:3000"
+      - "4444:4444"
+    environment:
+      TZ: "Europe/London"
+      no_proxy: "10.200.169.16,10.200.169.17,10.200.169.18,10.200.169.19,10.200.169.20,10.200.169.21,10.200.169.22,10.200.169.65"
+      GRID_MAX_SESSION: 1
+    deploy:
+        placement:
+          constraints: [node.role == manager]
+    networks:
+      grid:
+        aliases:
+          - selenium-hub
+
+  node-chrome:
+    labels:
+      name: selenium.node.chrome
+    image: mjlee1/node-chrome:1.0.0
+    deploy:
+      replicas: 2
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - grid-hub
+    environment:
+      TZ: "Asia/Kuala_Lumpur"
+      LC_ALL: "C.UTF-8"
+      no_proxy: "10.200.169.16,10.200.169.17,10.200.169.18,10.200.169.19,10.200.169.20,10.200.169.21,10.200.169.22,10.200.169.65"
+      GRID_MAX_SESSION: 1
+      NODE_DOWN_POLLING_LIMIT: 0
+      HUB_HOST: "selenium-hub"
+      HUB_PORT_PARAM: 4444
+    networks:
+      - grid
+
+  node-firefox:
+    labels:
+      name: selenium.node.firefox
+    image: mjlee1/node-firefox:1.0.0
+    deploy:
+      replicas: 2
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - grid-hub
+    environment:
+      TZ: "Asia/Kuala_Lumpur"
+      LC_ALL: "C.UTF-8"
+      no_proxy: "10.200.169.16,10.200.169.17,10.200.169.18,10.200.169.19,10.200.169.20,10.200.169.21,10.200.169.22,10.200.169.65,192.168.99.100"
+      GRID_MAX_SESSION: 1
+      HUB_HOST: "selenium-hub"
+      HUB_PORT_PARAM: 4444
+    networks:
+      - grid
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8080:8080
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - grid
+
+networks:
+  grid:
+    driver: overlay
+    driver_opts:
+      encrypted: "true"
