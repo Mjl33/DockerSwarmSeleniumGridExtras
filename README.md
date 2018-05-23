@@ -2,6 +2,10 @@
 
 This is an extension of (https://github.com/SeleniumHQ/docker-selenium) and (https://github.com/groupon/Selenium-Grid-Extras).
 
+## Version
+Selenium Grid Extras v2.0.4   
+Selenium WebDriver v3.11
+
 ## Dockerfile
 
 [`mjlee1` Dockerfiles](https://github.com/Mjl33/DockerSeleniumGrid)
@@ -27,6 +31,8 @@ CHROME_VERSION="google-chrome-stable"   //chrome version
 CHROME_DRIVER_VERSION="latest"          //chromedriver version
 FIREFOX_VERSION=latest                  //firefox version
 GECKODRIVER_VERSION=latest              //geckodriver version
+DEBUG=false                             //install debug tools if "true"
+
 ```
 
 
