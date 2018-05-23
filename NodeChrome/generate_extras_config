@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+CHROME_DRIVER_VERSION=$(/usr/bin/chromedriver --version | awk '{ print $2 }' | egrep -o ^[[:digit:]]{1}.[[:digit:]]{2})
+
+cat <<_EOF
+{
+  "theConfigMap": {
+    "auto_update_browser_versions": "0",
+    "hub_config_files": [],
+    "auto_start_hub": "0",
+    "default_role": "node",
+    "unregisterNodeDuringReboot": "true",
+    "chromedriver": {
+      "bit": "64",
+      "version": "${CHROME_DRIVER_VERSION}"
+    },
+    "auto_update_drivers": "0",
+    "video_recording_options": {
+      "videos_to_keep": "${VIDEOS_TO_KEEP}"
+    },
+    "auto_start_node": "1",
+    "hub_config": {},
+    "log_maximum_age_ms": 864000000,
+    "reboot_after_sessions": "0",
+    "grid_extras_port": "3000",
+    "webdriver": {
+      "version": "${CORE_SEL_VERSION_FULL}"
+    },
+    "node_config_files": [
+      "config.json"
+    ]
+  }
+}
+_EOF
