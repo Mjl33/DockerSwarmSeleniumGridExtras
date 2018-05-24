@@ -36,7 +36,7 @@ DEBUG=false                             //install debug tools if "true"
 ```
 
 
-##Deploying on docker swarm
+## Deploying on docker swarm
 Create docker swarm
 ```bash
 docker swarm init --advertise-addr <nodeIP>
