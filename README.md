@@ -30,7 +30,7 @@ GECKODRIVER_VERSION=latest              //geckodriver version
 ```
 
 
-##Deploying on docker swarm
+## Deploying on docker swarm
 Create docker swarm
 ```bash
 docker swarm init --advertise-addr <nodeIP>

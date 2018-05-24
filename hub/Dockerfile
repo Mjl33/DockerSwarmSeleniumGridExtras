@@ -3,7 +3,7 @@
 # PLEASE UPDATE Dockerfile.txt INSTEAD OF THIS FILE
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 FROM mjlee1/base:1.0.0
-LABEL authors=MJLee
+LABEL authors=MJLee 
 
 LABEL core_selenium_version=${CORE_SEL_VERSION_FULL}
 LABEL grid_extra_version=${EXTRA_SEL_VERSION}
